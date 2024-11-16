@@ -12,14 +12,16 @@ public class Passives {
 	}
 	
 	public void passiveIncome(Player player) {
-		Timer passiveIncome = new Timer(10000, new ActionListener() {
+		Timer passiveIncome = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Conversion convert = new Conversion(player);
 				player.clickCount += player.passiveIncome;
-				player.clickCountLabel.setText("Coins: " + player.clickCount);
+				convert.coinConvert();
 			}
 		});
-		passiveIncome.start();
+		
+		if (player.passiveIncome != 0) passiveIncome.start();
 	}
 
 }

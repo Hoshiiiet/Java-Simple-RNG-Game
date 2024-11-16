@@ -2,11 +2,21 @@ package frontEndGUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
+import java.io.*;
+
 import javax.swing.*;
+
+import javax.imageio.*;
+
+import java.net.*;
 
 import backEnd.*;
 
 public class CenterPanel {
+	
+	PopUpDialogs popUp = new PopUpDialogs();
 	
 	public CenterPanel() {
 		
@@ -20,7 +30,7 @@ public class CenterPanel {
 		JButton saveGame = new JButton("Save");
 		saveGame.setFocusable(false);
 		saveGame.setFocusPainted(false);
-		saveGame.setContentAreaFilled(false);
+		saveGame.setBackground(ConstantUIValues.buttonReady);
 		
 		Font saveGameCurrent = saveGame.getFont();
 		Font saveGameNew = saveGameCurrent.deriveFont(
@@ -32,17 +42,20 @@ public class CenterPanel {
 		saveGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				player.saveGame(player, powerUp);
+				File checkSave = new File("playerFiles/playerData.json");
+				
+				if (!checkSave.exists()) player.saveGame(player, powerUp);
+				else popUp.rewriteSavePrompt(player.window, player, powerUp);
 			}
 		});
 		
 		mainGameButtons.add(saveGame);
 		
 		//Upgrades
-		JButton upgrade = new JButton("Upgrade");
+		JButton upgrade = new JButton("Upgrades");
 		upgrade.setFocusable(false);
 		upgrade.setFocusPainted(false);
-		upgrade.setContentAreaFilled(false);
+		upgrade.setBackground(ConstantUIValues.buttonReady);
 		
 		Font upgradeCurrent = upgrade.getFont();
 		Font upgradeNew = upgradeCurrent.deriveFont(
@@ -64,7 +77,7 @@ public class CenterPanel {
 			JButton button = new JButton("Button " + Integer.toString(i));
 			button.setFocusable(false);
 			button.setFocusPainted(false);
-			button.setContentAreaFilled(false);
+			button.setBackground(ConstantUIValues.buttonReady);
 			
 			Font currentFont = button.getFont();
 			Font newFont = currentFont.deriveFont(
@@ -82,15 +95,22 @@ public class CenterPanel {
 		public void powerUps(JPanel centerPanel, Player player, PowerUps powerUp, CardLayout cardLayout) {
 			JPanel powerUps = new JPanel(new GridLayout(2, 2, 0, 0));
 			
-			JButton backButton = new JButton("Back");
+			JButton backButton = new JButton();
 			backButton.setFocusable(false);
 			backButton.setFocusPainted(false);
-			backButton.setContentAreaFilled(false);
+			backButton.setBackground(ConstantUIValues.buttonReady);
 			
-			Font backCurrent = backButton.getFont();
-			Font backNew = backCurrent.deriveFont(
-					backCurrent.getSize() + 10f);
-			backButton.setFont(backNew);
+			ImageIcon backIcon = null;
+			
+			try {
+				URL backImagePath = getClass().getResource("assets/back.png");
+				BufferedImage backImage = ImageIO.read(backImagePath);
+				backIcon = new ImageIcon(backImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			backButton.setIcon(backIcon);
 			
 			backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			
@@ -98,7 +118,6 @@ public class CenterPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					cardLayout.show(centerPanel, "mainGameButtons");
-					System.out.println("Button is pressed");
 				}
 			});
 			
@@ -111,7 +130,7 @@ public class CenterPanel {
 				JButton button = new JButton("Button " + Integer.toString(i));
 				button.setFocusable(false);
 				button.setFocusPainted(false);
-				button.setContentAreaFilled(false);
+				button.setBackground(ConstantUIValues.buttonReady);
 				
 				Font currentFont = button.getFont();
 				Font newFont = currentFont.deriveFont(

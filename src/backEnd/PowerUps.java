@@ -8,23 +8,27 @@ import javax.swing.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
+import frontEndGUI.ConstantUIValues;
+
 public class PowerUps {
+	Conversion convert;
+	
 //Global Variables
 	//coinsPerClick Global Variables
-	public JButton increaseCoinValue;
+	private JButton increaseCoinValue;
 	int powerUpOnePrice = 300;
 	int powerUpOneLevel = 1;
 	boolean powerUpOneMaxLevel = false;
 	
 	//addPassiveCoinIncome Global Variables
-	public JButton addPassiveCoin;
+	private JButton addPassiveCoin;
 	int powerUpTwoPrice = 10000;
 	int powerUpTwoLevel = 1;
 	boolean powerUpTwoMaxLevel = false;
 	
 //Constructor
-	public PowerUps() {
-		
+	public PowerUps(Player player) {
+		convert = new Conversion(player);
 	}
 	
 //Getters & Setters
@@ -41,6 +45,19 @@ public class PowerUps {
 		return powerUpOneMaxLevel;
 	}
 	
+	//addPassiveCoinIncome Variables
+	public JButton addPassiveCoinIncome() {
+		return addPassiveCoin;
+	}
+	
+	public int powerUpTwoPrice() {
+		return powerUpTwoPrice;
+	}
+	
+	public boolean powerUpTwoMaxLevel() {
+		return powerUpTwoMaxLevel;
+	}
+	
 //Class Methods
 	//coinsPerClick Method
 	public void coinsPerClick(JPanel powerUps, Player player) {
@@ -48,7 +65,7 @@ public class PowerUps {
 		increaseCoinValue.setEnabled(false);
 		increaseCoinValue.setFocusable(false);
 		increaseCoinValue.setFocusPainted(false);
-		increaseCoinValue.setContentAreaFilled(false);
+		increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
 		
 		Font currentPowerUpFont = increaseCoinValue.getFont();
 		Font newPowerUpFont = currentPowerUpFont.deriveFont(
@@ -64,17 +81,23 @@ public class PowerUps {
 					powerUpOneLevel++;
 					player.perClick++;
 					player.clickCount -= powerUpOnePrice;
-					powerUpOnePrice += (powerUpOnePrice * powerUpOneLevel);
-					player.clickCountLabel.setText("Coins: " + player.clickCount);
+					powerUpOnePrice += (powerUpOnePrice / 2) * powerUpOneLevel;
+
+					convert.coinConvert();
+					
 					player.clickerLabel.setText("CLICK HERE FOR COINS! (+" + player.perClick + ")");
 					increaseCoinValue.setText("Coin +1 / click (" + powerUpOnePrice + " coins)");
 					increaseCoinValue.setEnabled(player.clickCount >= powerUpOnePrice);
+					
+					if (increaseCoinValue.isEnabled()) increaseCoinValue.setBackground(ConstantUIValues.buttonReady);
+					else increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
 				}
 				
 				if (powerUpOneLevel == 10) {
 					powerUpOneMaxLevel = true;
 					increaseCoinValue.setText("MAX LEVEL");
 					increaseCoinValue.setEnabled(false);
+					increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
 				}
 			}
 		});
@@ -88,7 +111,7 @@ public class PowerUps {
 		addPassiveCoin.setEnabled(false);
 		addPassiveCoin.setFocusable(false);
 		addPassiveCoin.setFocusPainted(false);
-		addPassiveCoin.setContentAreaFilled(false);
+		addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
 		
 		Font currentPowerUpFont = addPassiveCoin.getFont();
 		Font newPowerUpFont = currentPowerUpFont.deriveFont(
@@ -101,19 +124,25 @@ public class PowerUps {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (player.clickCount >= powerUpTwoPrice && !powerUpTwoMaxLevel) {
-					powerUpOneLevel++;
-					player.perClick++;
-					player.clickCount -= powerUpOnePrice;
-					powerUpTwoPrice += powerUpTwoPrice * powerUpTwoLevel;
-					player.clickCountLabel.setText("Coins: " + player.clickCount);
+					powerUpTwoLevel++;
+					player.passiveIncome += 5;
+					player.clickCount -= powerUpTwoPrice;
+					powerUpTwoPrice += (powerUpTwoPrice / 2) * powerUpTwoLevel;
+
+					convert.coinConvert();
+					
 					addPassiveCoin.setText("+5 coins / 10 seconds (" + powerUpTwoPrice + " coins)");
 					addPassiveCoin.setEnabled(player.clickCount >= powerUpTwoPrice);
+					
+					if (addPassiveCoin.isEnabled()) addPassiveCoin.setBackground(ConstantUIValues.buttonReady);
+					else addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
 				}
 				
 				if (powerUpTwoLevel == 10) {
 					powerUpTwoMaxLevel = true;
 					addPassiveCoin.setText("MAX LEVEL");
 					addPassiveCoin.setEnabled(false);
+					addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
 				}
 			}
 		});

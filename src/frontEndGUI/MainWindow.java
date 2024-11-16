@@ -1,15 +1,21 @@
 package frontEndGUI;
 
 import javax.swing.*;
+import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
+import java.net.URL;
+
+import java.io.*;
 
 import backEnd.*;
 
 public class MainWindow {
 	
-	private JFrame window;
+	public JFrame window;
 
 	private JPanel mainPanel;
 	private JPanel titleScreen;
@@ -20,17 +26,29 @@ public class MainWindow {
 	Player player = new Player();
 	TitleScreen titleScreenButtons = new TitleScreen();
 	Passives passive = new Passives();
-	PowerUps powerUp = new PowerUps();
+	PowerUps powerUp = new PowerUps(player);
+	PopUpDialogs popUp = new PopUpDialogs();
 	
 	public MainWindow() {
 		//Main Game Window
 		window = new JFrame();
 		window.setTitle("Good Ol' Clicker Game");
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(1280, 680);
 		window.setResizable(false);
 		window.setLocationRelativeTo(null);
-	    window.setIconImage(new ImageIcon(getClass().getResource("icon.png")).getImage());
+		
+		URL frameIcon = getClass().getResource("assets/icon.png");
+	    window.setIconImage(new ImageIcon(frameIcon).getImage());
+	   
+		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		window.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				popUp.confirmExit(window);
+			}
+		});
+		
+		player.setWindow(window);
 	}
 	
 	//Open Game Window
@@ -55,23 +73,37 @@ public class MainWindow {
 	//Title Screen
 	public void titleScreen() {
 		//Title Screen Panel
-		titleScreen = new JPanel(new GridLayout(2,1));
+		titleScreen = new JPanel();
+		titleScreen.setBackground(ConstantUIValues.mainColor);
 		
 		//Game Title
 		JPanel gameTitle = new JPanel();
+		gameTitle.setPreferredSize(new Dimension(1280, 450));
+		gameTitle.setBackground(ConstantUIValues.mainColor);
+		
+		try {
+			URL titlePath = getClass().getResource("assets/title.png");
+			BufferedImage titleImage = ImageIO.read(titlePath);
+			JLabel title = new JLabel(new ImageIcon(titleImage));
+			gameTitle.add(title);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		//Buttons
 		JPanel buttonArea = new JPanel();
+		buttonArea.setBorder(BorderFactory.createEmptyBorder(18, 0, 0, 0));
+		buttonArea.setBackground(ConstantUIValues.mainColor);
 		
 		JButton newGame = titleScreenButtons.newGame(mainPanel, player, cardLayout);
 		buttonArea.add(newGame);
 		
-		JButton loadGame = titleScreenButtons.loadSavedGame(mainPanel, player, cardLayout);
+		JButton loadGame = titleScreenButtons.loadSavedGame(mainPanel, powerUp, player, cardLayout);
 		buttonArea.add(loadGame);
 		
 		//Add to Title Screen
-		titleScreen.add(gameTitle);
-		titleScreen.add(buttonArea);
+		titleScreen.add(gameTitle, BorderLayout.NORTH);
+		titleScreen.add(buttonArea, BorderLayout.CENTER);
 	}
 	
 	//Main Game Interface
@@ -100,9 +132,9 @@ public class MainWindow {
 	//Clicker Method
 	private void clicker(JPanel panel) {
 		JPanel clicker = new JPanel();
-		clicker.setOpaque(false);
+		clicker.setBackground(new Color(255, 180, 0));
 		clicker.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 50));
-		clicker.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
+		clicker.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
 		
 		player.clickerLabel = new JLabel("CLICK HERE FOR COINS! (+" + player.perClick + ")");
 		Font currentFont = player.clickerLabel.getFont();
@@ -114,23 +146,34 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e){
                 player.clickCount += player.perClick;
-                player.clickCountLabel.setText("Coins: " + player.clickCount);
                 
-                if (player.clickCount == 100000) {
-                	player.clickCount = 0;
-                	player.gemCount++;
-                    player.clickCountLabel.setText("Coins: " + player.clickCount);
-                	player.gemCountLabel.setText("Gems: " + player.gemCount);
-                }
+                Conversion convert = new Conversion(player);
+                convert.gemConvert();
+                convert.coinConvert();
                 
+                //Power Up One Checking
                 JButton increaseCoinValue = powerUp.increaseCoinValue();
-                
                 if (player.clickCount >= powerUp.powerUpOnePrice()
                 		&& !powerUp.powerUpOneMaxLevel()) {
                 	increaseCoinValue.setEnabled(true);
                 } else {
                 	increaseCoinValue.setEnabled(false);
                 }
+                
+                if (increaseCoinValue.isEnabled()) increaseCoinValue.setBackground(ConstantUIValues.buttonReady);
+                else increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
+                
+                //Power Up Two Checking
+                JButton addPassiveIncome = powerUp.addPassiveCoinIncome();
+                if (player.clickCount >= powerUp.powerUpTwoPrice()
+                		&& !powerUp.powerUpTwoMaxLevel()) {
+                	addPassiveIncome.setEnabled(true);
+                } else {
+                	addPassiveIncome.setEnabled(false);
+                }
+                
+                if (addPassiveIncome.isEnabled()) addPassiveIncome.setBackground(ConstantUIValues.buttonReady);
+                else addPassiveIncome.setBackground(ConstantUIValues.buttonDisabled);
             }
         });
 		panel.add(clicker, BorderLayout.SOUTH);
@@ -141,9 +184,9 @@ public class MainWindow {
 		//Currency
 		JPanel currencyPanel = new JPanel();
 		currencyPanel.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK),
+			BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK),
 			BorderFactory.createEmptyBorder(15, 0, 15, 0)));
-		currencyPanel.setOpaque(false);
+		currencyPanel.setBackground(new Color(255, 180, 0));
 		
 		//Coins
 		player.clickCountLabel = new JLabel("Coins: 0");
