@@ -74,13 +74,11 @@ public class Player{
 						if (player.clickCount >= powerUp.powerUpOnePrice()
 		                		&& !powerUp.powerUpOneMaxLevel()) {
 		                	increaseCoinValue.setEnabled(true);
+		                	increaseCoinValue.setBackground(ConstantUIValues.buttonReady);
 		                } else {
 		                	increaseCoinValue.setEnabled(false);
-		                }
-		                
-		                if (increaseCoinValue.isEnabled()) increaseCoinValue.setBackground(ConstantUIValues.buttonReady);
-		                else increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
-						
+		                	increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
+		                }						
 	    				break;
 	    			case 2:
 	    				JButton addPassiveCoin = powerUp.addPassiveCoinIncome();
@@ -93,13 +91,11 @@ public class Player{
 						if (player.clickCount >= powerUp.powerUpTwoPrice()
 		                		&& !powerUp.powerUpTwoMaxLevel()) {
 							addPassiveCoin.setEnabled(true);
+							addPassiveCoin.setBackground(ConstantUIValues.buttonReady);
 		                } else {
 		                	addPassiveCoin.setEnabled(false);
+		                	addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
 		                }
-		                
-		                if (addPassiveCoin.isEnabled()) addPassiveCoin.setBackground(ConstantUIValues.buttonReady);
-		                else addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
-		                
 	    				break;
 	    		}
 	    	}

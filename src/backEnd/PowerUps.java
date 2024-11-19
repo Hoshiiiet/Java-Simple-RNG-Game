@@ -58,7 +58,6 @@ public class PowerUps {
 		return powerUpTwoMaxLevel;
 	}
 	
-//Class Methods
 	//coinsPerClick Method
 	public void coinsPerClick(JPanel powerUps, Player player) {
 		increaseCoinValue = new JButton("Coin +1 / click (" + powerUpOnePrice + " coins)");
@@ -89,8 +88,9 @@ public class PowerUps {
 					increaseCoinValue.setText("Coin +1 / click (" + powerUpOnePrice + " coins)");
 					increaseCoinValue.setEnabled(player.clickCount >= powerUpOnePrice);
 					
-					if (increaseCoinValue.isEnabled()) increaseCoinValue.setBackground(ConstantUIValues.buttonReady);
-					else increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
+					if (increaseCoinValue.isEnabled()) {
+						increaseCoinValue.setBackground(ConstantUIValues.buttonReady);
+					} else increaseCoinValue.setBackground(ConstantUIValues.buttonDisabled);
 				}
 				
 				if (powerUpOneLevel == 10) {
@@ -134,8 +134,9 @@ public class PowerUps {
 					addPassiveCoin.setText("+5 coins / 10 seconds (" + powerUpTwoPrice + " coins)");
 					addPassiveCoin.setEnabled(player.clickCount >= powerUpTwoPrice);
 					
-					if (addPassiveCoin.isEnabled()) addPassiveCoin.setBackground(ConstantUIValues.buttonReady);
-					else addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
+					if (addPassiveCoin.isEnabled()) {
+						addPassiveCoin.setBackground(ConstantUIValues.buttonReady);
+					} else addPassiveCoin.setBackground(ConstantUIValues.buttonDisabled);
 				}
 				
 				if (powerUpTwoLevel == 10) {

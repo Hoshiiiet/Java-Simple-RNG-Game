@@ -2,15 +2,10 @@ package frontEndGUI;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 
 import java.io.*;
 
 import javax.swing.*;
-
-import javax.imageio.*;
-
-import java.net.*;
 
 import backEnd.*;
 
@@ -22,7 +17,7 @@ public class CenterPanel {
 		
 	}
 	
-	//First Center Panel
+//First Center Panel
 	public void mainGameButtons(JPanel centerPanel, Player player, PowerUps powerUp, CardLayout cardLayout) {
 		JPanel mainGameButtons = new JPanel(new GridLayout (2, 2, 0, 0));
 		
@@ -52,6 +47,8 @@ public class CenterPanel {
 		mainGameButtons.add(saveGame);
 		
 		//Upgrades
+		powerUps(centerPanel, player, powerUp, cardLayout);
+		
 		JButton upgrade = new JButton("Upgrades");
 		upgrade.setFocusable(false);
 		upgrade.setFocusPainted(false);
@@ -73,7 +70,31 @@ public class CenterPanel {
 		
 		mainGameButtons.add(upgrade);
 		
-		for (int i = 1; i <= 2; i++) {
+		//Shop
+		shop(centerPanel, player, cardLayout);
+		
+		JButton shop = new JButton("Shop");
+		shop.setFocusable(false);
+		shop.setFocusPainted(false);
+		shop.setBackground(ConstantUIValues.buttonReady);
+		
+		Font shopCurrent = shop.getFont();
+		Font shopNew = shopCurrent.deriveFont(
+				shopCurrent.getSize() + 10f);
+		shop.setFont(shopNew);
+		
+		shop.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		shop.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(centerPanel, "shop");
+			}
+		});
+		
+		mainGameButtons.add(shop);
+		
+		for (int i = 1; i <= 1; i++) {
 			JButton button = new JButton("Button " + Integer.toString(i));
 			button.setFocusable(false);
 			button.setFocusPainted(false);
@@ -91,56 +112,53 @@ public class CenterPanel {
 		centerPanel.add(mainGameButtons, "mainGameButtons");
 	}
 	
-	//Player Upgrades
-		public void powerUps(JPanel centerPanel, Player player, PowerUps powerUp, CardLayout cardLayout) {
-			JPanel powerUps = new JPanel(new GridLayout(2, 2, 0, 0));
+//Upgrades Panel
+	public void powerUps(JPanel centerPanel, Player player, PowerUps powerUp, CardLayout cardLayout) {
+		JPanel powerUps = new JPanel(new GridLayout(2, 2, 0, 0));
+		
+		ConstantUIValues.backButton(cardLayout, centerPanel, powerUps);
+		powerUp.coinsPerClick(powerUps, player);
+		powerUp.addPassiveCoinIncome(powerUps, player);
+		
+		for (int i = 1; i <= 1; i++) {
+			JButton button = new JButton("Button " + Integer.toString(i));
+			button.setFocusable(false);
+			button.setFocusPainted(false);
+			button.setBackground(ConstantUIValues.buttonReady);
 			
-			JButton backButton = new JButton();
-			backButton.setFocusable(false);
-			backButton.setFocusPainted(false);
-			backButton.setBackground(ConstantUIValues.buttonReady);
+			Font currentFont = button.getFont();
+			Font newFont = currentFont.deriveFont(
+					currentFont.getSize() + 5f);
+			button.setFont(newFont);
 			
-			ImageIcon backIcon = null;
-			
-			try {
-				URL backImagePath = getClass().getResource("assets/back.png");
-				BufferedImage backImage = ImageIO.read(backImagePath);
-				backIcon = new ImageIcon(backImage);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			backButton.setIcon(backIcon);
-			
-			backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-			
-			backButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cardLayout.show(centerPanel, "mainGameButtons");
-				}
-			});
-			
-			powerUps.add(backButton);
-			
-			powerUp.coinsPerClick(powerUps, player);
-			powerUp.addPassiveCoinIncome(powerUps, player);
-			
-			for (int i = 1; i <= 1; i++) {
-				JButton button = new JButton("Button " + Integer.toString(i));
-				button.setFocusable(false);
-				button.setFocusPainted(false);
-				button.setBackground(ConstantUIValues.buttonReady);
-				
-				Font currentFont = button.getFont();
-				Font newFont = currentFont.deriveFont(
-						currentFont.getSize() + 5f);
-				button.setFont(newFont);
-				
-				button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				powerUps.add(button);
-			}
-			
-			centerPanel.add(powerUps, "powerUps");
+			button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			powerUps.add(button);
 		}
+		
+		centerPanel.add(powerUps, "powerUps");
+	}
+		
+//Shop
+	public void shop(JPanel centerPanel, Player player, CardLayout cardLayout) {
+		JPanel shop = new JPanel(new GridLayout(2, 2, 0, 0));
+		
+		ConstantUIValues.backButton(cardLayout, centerPanel, shop);
+		
+		for (int i = 1; i <= 3; i++) {
+			JButton button = new JButton("Button " + Integer.toString(i));
+			button.setFocusable(false);
+			button.setFocusPainted(false);
+			button.setBackground(ConstantUIValues.buttonReady);
+			
+			Font currentFont = button.getFont();
+			Font newFont = currentFont.deriveFont(
+					currentFont.getSize() + 5f);
+			button.setFont(newFont);
+			
+			button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			shop.add(button);
+		}
+		
+		centerPanel.add(shop, "shop");
+	}
 }

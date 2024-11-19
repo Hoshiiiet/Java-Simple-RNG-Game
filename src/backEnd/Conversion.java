@@ -9,7 +9,7 @@ public class Conversion {
 	}
 	
 	public void gemConvert() {
-		if (player.clickCount == 100000) {
+		if (player.clickCount == 20000) {
         	player.clickCount = 0;
         	player.gemCount++;
             coinConvert();

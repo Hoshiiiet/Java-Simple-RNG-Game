@@ -109,8 +109,8 @@ public class PopUpDialogs {
 		button[0].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				player.saveGame(player, powerUp);
 				dialog.setVisible(false);
+				player.saveGame(player, powerUp);
 			}
 		});
 		

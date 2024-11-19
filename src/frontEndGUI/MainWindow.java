@@ -118,7 +118,6 @@ public class MainWindow {
 		CenterPanel centerPanelButtons = new CenterPanel();
 		JPanel centerPanel = new JPanel(cardLayout);
 		
-		centerPanelButtons.powerUps(centerPanel, player, powerUp, cardLayout);
 		centerPanelButtons.mainGameButtons(centerPanel, player, powerUp, cardLayout);
 		
 		cardLayout.show(centerPanel, "mainGameButtons");
@@ -192,7 +191,7 @@ public class MainWindow {
 		player.clickCountLabel = new JLabel("Coins: 0");
 		Font currentCountLabelFont = player.clickCountLabel.getFont();
 		Font currencyFont = currentCountLabelFont.deriveFont(
-				currentCountLabelFont.getSize() + 10f);
+				currentCountLabelFont.getSize() + 12f);
 		player.clickCountLabel.setFont(currencyFont);
 		
 		JPanel coinsPanel = new JPanel();
@@ -204,12 +203,19 @@ public class MainWindow {
 		//Gems
 		player.gemCountLabel = new JLabel("Gems: 0");
 		player.gemCountLabel.setFont(currencyFont);
+
+		JLabel coinsToGem = new JLabel ("(20k coins = 1 gem)");
+		Font currencySubFont = currencyFont.deriveFont(currencyFont.getSize() - 5f);
+		coinsToGem.setFont(currencySubFont);
+		coinsToGem.setForeground(new Color(84, 84, 84));
 		
 		JPanel gemsPanel = new JPanel();
 		gemsPanel.setOpaque(false);
 		gemsPanel.add(player.gemCountLabel);
+		gemsPanel.add(coinsToGem);
 		
 		currencyPanel.add(gemsPanel, BorderLayout.CENTER);
+		
 		
 		//Adds Currency to the Main Panel
 		panel.add(currencyPanel, BorderLayout.NORTH);
