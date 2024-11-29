@@ -1,15 +1,10 @@
 package frontEndGUI;
 
-import javax.swing.*;
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-
-import java.net.URL;
-
 import java.io.*;
+
+import javax.swing.*;
 
 import backEnd.*;
 
@@ -29,7 +24,7 @@ public class MainWindow {
 	PowerUps powerUp = new PowerUps(player);
 	PopUpDialogs popUp = new PopUpDialogs();
 	
-	public MainWindow() {
+	public MainWindow() throws IOException {
 		//Main Game Window
 		window = new JFrame();
 		window.setTitle("Good Ol' Clicker Game");
@@ -37,8 +32,8 @@ public class MainWindow {
 		window.setResizable(false);
 		window.setLocationRelativeTo(null);
 		
-		URL frameIcon = getClass().getResource("assets/icon.png");
-	    window.setIconImage(new ImageIcon(frameIcon).getImage());
+		ImageIcon iconImage = new ImageIcon(".//assets//icon.png");
+	    window.setIconImage(iconImage.getImage());
 	   
 		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		window.addWindowListener(new WindowAdapter() {
@@ -57,7 +52,7 @@ public class MainWindow {
 	}
 	
 	//Main Window Panel
-	public void mainPanel() {
+	public void mainPanel() throws IOException{
 		cardLayout = new CardLayout();
 		mainPanel = new JPanel(cardLayout);
 		window.add(mainPanel);
@@ -81,14 +76,8 @@ public class MainWindow {
 		gameTitle.setPreferredSize(new Dimension(1280, 450));
 		gameTitle.setBackground(ConstantUIValues.mainColor);
 		
-		try {
-			URL titlePath = getClass().getResource("assets/title.png");
-			BufferedImage titleImage = ImageIO.read(titlePath);
-			JLabel title = new JLabel(new ImageIcon(titleImage));
-			gameTitle.add(title);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		JLabel title = new JLabel(new ImageIcon(".//assets//title.png"));
+		gameTitle.add(title);
 		
 		//Buttons
 		JPanel buttonArea = new JPanel();
@@ -107,7 +96,7 @@ public class MainWindow {
 	}
 	
 	//Main Game Interface
-	public void inGamePanel() {
+	public void inGamePanel() throws IOException {
 		//Main Panel
 		inGamePanel = new JPanel(new BorderLayout());
 		
@@ -115,10 +104,10 @@ public class MainWindow {
 		currency(inGamePanel);
 		
 		//Center Panel
-		CenterPanel centerPanelButtons = new CenterPanel();
+		CenterPanel centerPanelButtons = new CenterPanel(powerUp);
 		JPanel centerPanel = new JPanel(cardLayout);
 		
-		centerPanelButtons.mainGameButtons(centerPanel, player, powerUp, cardLayout);
+		centerPanelButtons.mainGameButtons(centerPanel, player, cardLayout);
 		
 		cardLayout.show(centerPanel, "mainGameButtons");
 		
@@ -133,7 +122,7 @@ public class MainWindow {
 		JPanel clicker = new JPanel();
 		clicker.setBackground(new Color(255, 180, 0));
 		clicker.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 50));
-		clicker.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
+		clicker.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
 		
 		player.clickerLabel = new JLabel("CLICK HERE FOR COINS! (+" + player.perClick + ")");
 		Font currentFont = player.clickerLabel.getFont();

@@ -1,9 +1,19 @@
 package frontEndGUI;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
 import java.awt.Dialog.ModalityType;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import backEnd.Player;
 import backEnd.PowerUps;
@@ -18,7 +28,9 @@ public class PopUpDialogs {
 		JDialog dialog = new JDialog(window, null, ModalityType.APPLICATION_MODAL);
 		dialog.setTitle("Load Game");
 		dialog.setResizable(false);
-		dialog.setIconImage(new ImageIcon(getClass().getResource("assets/icon.png")).getImage());
+		
+		ImageIcon image = new ImageIcon(".//assets//icon.png");
+		dialog.setIconImage(image.getImage());
 		
 		JLabel message = new JLabel("Game Loaded Successfully!");
 		message.setFont(new Font("Arial", Font.PLAIN, 27));
@@ -58,7 +70,9 @@ public class PopUpDialogs {
 		JDialog dialog = new JDialog(window, null, ModalityType.APPLICATION_MODAL);
 		dialog.setTitle("Save Game");
 		dialog.setResizable(false);
-		dialog.setIconImage(new ImageIcon(getClass().getResource("assets/icon.png")).getImage());
+
+		ImageIcon image = new ImageIcon(".//assets//icon.png");
+		dialog.setIconImage(image.getImage());
 		
 		JLabel message = new JLabel("Game Saved Successfully!");
 		message.setFont(new Font("Arial", Font.PLAIN, 27));
@@ -78,7 +92,9 @@ public class PopUpDialogs {
 		JDialog dialog = new JDialog(window, null, ModalityType.APPLICATION_MODAL);
 		dialog.setTitle("Save Game");
 		dialog.setResizable(false);
-		dialog.setIconImage(new ImageIcon(getClass().getResource("assets/icon.png")).getImage());
+
+		ImageIcon image = new ImageIcon(".//assets//icon.png");
+		dialog.setIconImage(image.getImage());
 		
 		JLabel message = new JLabel("Do you want to rewrite existing save?");
 		message.setFont(new Font("Arial", Font.PLAIN, 27));
@@ -135,7 +151,9 @@ public class PopUpDialogs {
 	public void confirmExit(JFrame window) {
 		JDialog dialog = new JDialog(window, "Exit", ModalityType.APPLICATION_MODAL);
 		dialog.setResizable(false);
-		dialog.setIconImage(new ImageIcon(getClass().getResource("assets/icon.png")).getImage());
+
+		ImageIcon image = new ImageIcon(".//assets//icon.png");
+		dialog.setIconImage(image.getImage());
 		
 		JLabel message = new JLabel("Do you really want to exit?");
 		message.setFont(new Font("Arial", Font.PLAIN, 27));

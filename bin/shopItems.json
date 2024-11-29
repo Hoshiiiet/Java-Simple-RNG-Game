@@ -1,0 +1,13 @@
+0001	chipped_coin	D	1500	0	500	3	0	0	0	0	0	adds coin per click
+0002	rusty_amulet	D	1750	0	700	0	0	0	0	5	0	adds gacha luck attribute
+0003	item_finder	D	1000	0	400	0	0	0	5	0	0	gives access to random drops per click
+0004	copper_coin	C	2750	0	1000	5	0	0	0	0	0	adds coin per click
+0005	ocean_gem_ring	C	2750	0	1000	0	0	0	0	10	0	adds gacha luck attribute
+0006	slow_clicker	C	2500	0	900	0	0	0	0	0	5	adds passive income
+0007	small_magnet	B	3000	0	1500	10	0	0	0	0	0	adds coin per click
+0008	golden_pickaxe	B	4000	0	2000	0	0	1	0	0	0	gives 1/100 chance to find a gem per click
+0009	void_die	A	6000	0	2500	0	0	0	0	0	0	gives player a random buff (one time use)
+0010	unicorn_horn	A	7500	0	3000	20	0	10	0	0	0	while equipped, player is granted extra coins per click and a slighty higher chance to find a gem
+0011	scaly_egg_shell	S	13000	0	5000	0	0	0	0	0	0	gives a certain A rank and up in gacha (one-time use)
+0012	player_rebirth	SS	0	1	9000	0	2	0	0	0	0	resets progress, giving the player coin multiplier and extra passive coin income
+0013	rusty_sword	SSR	0	10	12000	0	0	0	0	0	0	gives the player a random chance to get 5-15 gems

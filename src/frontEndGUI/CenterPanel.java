@@ -1,24 +1,35 @@
 package frontEndGUI;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
-import java.io.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
-import javax.swing.*;
-
-import backEnd.*;
+import backEnd.Player;
+import backEnd.PowerUps;
+import backEnd.GameShopItems;
 
 public class CenterPanel {
 	
 	PopUpDialogs popUp = new PopUpDialogs();
 	
-	public CenterPanel() {
-		
+	PowerUps powerUp;
+	
+	public CenterPanel(PowerUps powerUp) {
+		this.powerUp = powerUp;
 	}
 	
 //First Center Panel
-	public void mainGameButtons(JPanel centerPanel, Player player, PowerUps powerUp, CardLayout cardLayout) {
+	public void mainGameButtons(JPanel centerPanel, Player player, CardLayout cardLayout) throws IOException {
 		JPanel mainGameButtons = new JPanel(new GridLayout (2, 2, 0, 0));
 		
 		//Save Game
@@ -47,7 +58,7 @@ public class CenterPanel {
 		mainGameButtons.add(saveGame);
 		
 		//Upgrades
-		powerUps(centerPanel, player, powerUp, cardLayout);
+		powerUps(centerPanel, player, cardLayout);
 		
 		JButton upgrade = new JButton("Upgrades");
 		upgrade.setFocusable(false);
@@ -113,7 +124,7 @@ public class CenterPanel {
 	}
 	
 //Upgrades Panel
-	public void powerUps(JPanel centerPanel, Player player, PowerUps powerUp, CardLayout cardLayout) {
+	public void powerUps(JPanel centerPanel, Player player, CardLayout cardLayout) {
 		JPanel powerUps = new JPanel(new GridLayout(2, 2, 0, 0));
 		
 		ConstantUIValues.backButton(cardLayout, centerPanel, powerUps);
@@ -139,13 +150,19 @@ public class CenterPanel {
 	}
 		
 //Shop
-	public void shop(JPanel centerPanel, Player player, CardLayout cardLayout) {
-		JPanel shop = new JPanel(new GridLayout(2, 2, 0, 0));
+	public void shop(JPanel centerPanel, Player player, CardLayout cardLayout) throws IOException {
+		
+		JPanel shop = new JPanel(new GridLayout(2, 1, 0, 0));
+		
+		HashMap<String, GameShopItems> items = GameShopItems.loadDefaultShop();
 		
 		ConstantUIValues.backButton(cardLayout, centerPanel, shop);
 		
-		for (int i = 1; i <= 3; i++) {
-			JButton button = new JButton("Button " + Integer.toString(i));
+		for (int i = 1; i <= 13; i++) {
+			GameShopItems item = items.get("0013");
+			String name = item.itemName;
+			int price = item.itemGemPrice;
+			JButton button = new JButton(name + " (" + price + " gems)");
 			button.setFocusable(false);
 			button.setFocusPainted(false);
 			button.setBackground(ConstantUIValues.buttonReady);

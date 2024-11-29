@@ -1,11 +1,20 @@
 package frontEndGUI;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
-import backEnd.*;
+import backEnd.GameShopItems;
+import backEnd.Passives;
+import backEnd.Player;
+import backEnd.PowerUps;
 
 public class TitleScreen {
 	
@@ -33,6 +42,7 @@ public class TitleScreen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				passive.passiveIncome(player);
+				GameShopItems.loadDefaultShop();
 				cardLayout.show(mainPanel, "inGamePanel");
 			}
 		});

@@ -1,14 +1,14 @@
 package frontEndGUI;
 
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public final class ConstantUIValues {
 
@@ -27,15 +27,7 @@ public final class ConstantUIValues {
 		backButton.setFocusPainted(false);
 		backButton.setBackground(ConstantUIValues.buttonReady);
 		
-		ImageIcon backIcon = null;
-		
-		try {
-			URL backImagePath = ConstantUIValues.class.getResource("assets/back.png");
-			BufferedImage backImage = ImageIO.read(backImagePath);
-			backIcon = new ImageIcon(backImage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ImageIcon backIcon = new ImageIcon(".//assets//back.png");
 		
 		backButton.setIcon(backIcon);
 		
